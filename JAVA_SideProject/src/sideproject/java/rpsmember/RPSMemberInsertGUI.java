@@ -71,9 +71,9 @@ public class RPSMemberInsertGUI extends JFrame {
 				String memberId = idTF.getText();
 				String memberPassword = pwTF.getText();
 				String memberName = nameTF.getText();
-				String memberString = emailTF.getText();
+				String memberEmail = emailTF.getText();
 				
-				RPSMemberDTO dto = new RPSMemberDTO(0, memberId, memberPassword, memberName, memberName, 1000);
+				RPSMemberDTO dto = new RPSMemberDTO(0, memberId, memberPassword, memberName, memberEmail, 1000);
 				int result = dao.memberInsert(dto);
 				
 				if(result == 1) {
