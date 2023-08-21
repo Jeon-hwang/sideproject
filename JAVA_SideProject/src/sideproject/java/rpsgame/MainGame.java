@@ -20,9 +20,11 @@ public class MainGame extends JFrame {
 	private RPSMainGUI mainGUI;
 	private JPanel contentPane;
 	private JTextField pointTF;
+	private JButton btnStart;
 	private GameStart game;
 	private RPSMemberDTO dto;
 	private int myPoint;
+	private JLabel lblMyPoint;
 	
 	public MainGame(RPSMainGUI mainGUI) {
 		this.mainGUI = mainGUI;
@@ -49,7 +51,7 @@ public class MainGame extends JFrame {
 		contentPane.add(pointTF);
 		pointTF.setColumns(10);
 
-		JButton btnStart = new JButton("시작");
+		btnStart = new JButton("시작");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -70,6 +72,7 @@ public class MainGame extends JFrame {
 							game.setBounds(0, 50, 444, 281);
 							contentPane.add(game);
 							btnStart.setEnabled(false);
+							pointTF.setEnabled(false);
 						} else {
 							JOptionPane.showMessageDialog(null, "포인트가 부족합니다!", "포인트 입력 오류",
 									JOptionPane.WARNING_MESSAGE);
@@ -88,21 +91,20 @@ public class MainGame extends JFrame {
 		btnStart.setBounds(255, 14, 74, 23);
 		contentPane.add(btnStart);
 
-		JButton btnStart_1 = new JButton("종료");
-		btnStart_1.addActionListener(new ActionListener() {
+		JButton btnExit = new JButton("종료");
+		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainGUI.setInfo(dto);
 				dispose();
 			}
 		});
-		btnStart_1.setBounds(341, 14, 74, 23);
-		contentPane.add(btnStart_1);
-
+		btnExit.setBounds(341, 14, 74, 23);
+		contentPane.add(btnExit);
 		
-		
-		JButton btnRestart = new JButton("다시 시작");
-		btnRestart.setBounds(24, 141, 94, 76);
-		contentPane.add(btnRestart);
+		lblMyPoint = new JLabel("현재 포인트 :" +myPoint);
+		lblMyPoint.setFont(new Font("굴림", Font.BOLD, 14));
+		lblMyPoint.setBounds(12, 37, 223, 30);
+		contentPane.add(lblMyPoint);
 	}// end MainGame
 	
 	public int settingPoint() {
@@ -111,6 +113,10 @@ public class MainGame extends JFrame {
 	
 	public void setInfo(RPSMemberDTO dto) {
 		this.dto = dto;
+	}
+	public void isRestart() {
+		btnStart.setEnabled(true);
+		pointTF.setEnabled(true);
 	}
 	
 	public RPSMemberDTO getInfo() {
@@ -122,6 +128,6 @@ public class MainGame extends JFrame {
 	
 	public void changePoint(int point) {
 		this.myPoint = point;
+		lblMyPoint.setText("현재 포인트 :" +myPoint);
 	}
-
 }

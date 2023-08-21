@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import sideproject.java.rpsmember.BoardDAO;
+import sideproject.java.rpsmember.BoardDAOImple;
 import sideproject.java.rpsmember.RPSMemberDAO;
 import sideproject.java.rpsmember.RPSMemberDAOImple;
 import sideproject.java.rpsmember.RPSMemberDTO;
@@ -20,6 +22,7 @@ public class GameStart extends JPanel {
 	private JButton btnSissor;
 	private JButton btnRock; 
 	private JButton btnPaper;
+	private JButton btnRestart;
 	private static final String[] HANDS = { "가위", "바위", "보" };
 	private int count = 1;
 	private JLabel lblComHands;
@@ -27,15 +30,16 @@ public class GameStart extends JPanel {
 	private int comChoice = -1;
 	private RPSMemberDTO dto;
 	private RPSMemberDAO dao;
-	
+	private BoardDAO bdao;
+
 	
 	private MainGame mainGame;
 	private int myPoint;
 	private int settingPoint;
-	private JLabel lblResultPt;
 	
 	public GameStart(MainGame mainGame) {
 		dao= new RPSMemberDAOImple();
+		bdao = new BoardDAOImple();
 		this.mainGame = mainGame;
 		
 		settingPoint = mainGame.settingPoint();
@@ -92,11 +96,18 @@ public class GameStart extends JPanel {
 		lblResult.setBounds(0, 66, 444, 34);
 		add(lblResult);
 		
-		lblResultPt = new JLabel("");
-		lblResultPt.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultPt.setFont(new Font("돋움", Font.BOLD, 16));
-		lblResultPt.setBounds(0, 103, 444, 34);
-		add(lblResultPt);
+		btnRestart = new JButton("다시 시작");
+		btnRestart.setVisible(false);
+		btnRestart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnRestart.setVisible(false);
+				mainGame.isRestart();
+				setVisible(false);
+			}
+		});
+		btnRestart.setFont(new Font("바탕", Font.BOLD, 26));
+		btnRestart.setBounds(30, 158, 380, 100);
+		add(btnRestart);
 
 	}//end GameStart()
 	
@@ -108,11 +119,15 @@ public class GameStart extends JPanel {
 			lblResult.setText("졌습니다 ㅠㅠ");
 			myPoint -= settingPoint;
 			mainGame.changePoint(myPoint);
+			completeGame();
+			bdao.gameResult(dto, false);
 			
 		} else { // 보 일 경우
 			lblResult.setText("이겼습니다 !!");
 			myPoint += settingPoint;
 			mainGame.changePoint(myPoint);
+			completeGame();
+			bdao.gameResult(dto, true);
 		}
 	} //end SissorHand()
 	
@@ -121,12 +136,16 @@ public class GameStart extends JPanel {
 			lblResult.setText("이겼습니다 !!");
 			myPoint += settingPoint;
 			mainGame.changePoint(myPoint);
+			completeGame();
+			bdao.gameResult(dto, true);
 		} else if (comChoice == 1) { // 바위일 경우
 			lblResult.setText("무승부 입니다 다시하세요");
 		} else { // 보 일 경우
 			lblResult.setText("졌습니다 ㅠㅠ");
 			myPoint -= settingPoint;
 			mainGame.changePoint(myPoint);
+			completeGame();
+			bdao.gameResult(dto, false);
 		}
 	} //end RockHand()
 	
@@ -136,10 +155,14 @@ public class GameStart extends JPanel {
 				lblResult.setText("졌습니다 ㅠㅠ");
 				myPoint -= settingPoint;
 				mainGame.changePoint(myPoint);
+				completeGame();
+				bdao.gameResult(dto, false);
 			} else if (comChoice == 1) { // 바위일 경우
 				lblResult.setText("이겼습니다 !!");
 				myPoint += settingPoint;
 				mainGame.changePoint(myPoint);
+				completeGame();
+				bdao.gameResult(dto, true);
 			} else { // 보 일 경우
 				lblResult.setText("무승부 입니다 다시하세요");
 			}
@@ -169,10 +192,7 @@ public class GameStart extends JPanel {
 					break;
 					}
 					
-					
-					
-					lblResultPt.setText("현재 포인트 : "+myPoint);
-					
+										
 //					System.out.println(myPoint);
 					dto = dao.updatePoint(myPoint, dto);
 					mainGame.setInfo(dto);
@@ -186,9 +206,11 @@ public class GameStart extends JPanel {
 		}, 0, 1200);
 	} // end ComputerHands()
 	
-	private void hideBtn() {
+	private void completeGame() {
+		btnPaper.setVisible(false);
 		btnRock.setVisible(false);
-		
+		btnSissor.setVisible(false);
+		btnRestart.setVisible(true);		
 	}
 	
 	public int getPoint() {
