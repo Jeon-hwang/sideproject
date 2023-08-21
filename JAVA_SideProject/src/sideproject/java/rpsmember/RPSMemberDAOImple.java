@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -37,14 +38,19 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 
 			pstmt = conn.prepareStatement(SQL_INSERT);
 			// "INSERT INTO "+ TABLE_NAME+" VALUES(RPS_SEQ, ?, ?, ?, ?, 1000)";
-
+	
 			pstmt.setString(1, dto.getMemberId());
+		
 			pstmt.setString(2, dto.getMemberPassword());
+		
 			pstmt.setString(3, dto.getMemberName());
+			
 			pstmt.setString(4, dto.getMemberEmail());
-
+		try {
 			result = pstmt.executeUpdate();
-			System.out.println(result + "행이 삽입되었습니다.");
+		}catch(SQLIntegrityConstraintViolationException e){
+			JOptionPane.showMessageDialog(null, "이미 존재하는 아이디입니다.", "회원 등록 실패", JOptionPane.WARNING_MESSAGE);
+		}
 		} catch (SQLException e) {
 			System.out.println(e);
 			e.printStackTrace();

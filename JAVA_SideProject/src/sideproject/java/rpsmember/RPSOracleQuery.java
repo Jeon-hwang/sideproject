@@ -6,6 +6,7 @@ public interface RPSOracleQuery {
 	public static final String PASSWORD = "tiger";
 	
 	public static final String TABLE_NAME = "RPS_MEMBER";
+	public static final String TABLE_BNAME = "RPS_BOARD";
 	
 	public static final String COL_MEMBER_NUMBER = "MEMBER_NUMBER";
 	public static final String COL_MEMBER_ID = "MEMBER_ID";
@@ -13,6 +14,12 @@ public interface RPSOracleQuery {
 	public static final String COL_MEMBER_NAME = "MEMBER_NAME";
 	public static final String COL_EMAIL = "MEMBER_EMAIL";
 	public static final String COL_POINT = "MEMBER_POINT";
+	
+	public static final String COL_BOARD_NUMBER = "BOARD_NUMBER";
+	public static final String COL_WIN = "BOARD_WIN";
+	public static final String COL_LOSE = "BOARD_LOSE";
+	public static final String COL_DATE = "BOARD_DATE";
+	
 	
 	public static final String SQL_INSERT = "INSERT INTO "+ TABLE_NAME+
 											" VALUES(RPS_SEQ.NEXTVAL, ?, ?, ?, ?, 1000)";
@@ -30,4 +37,12 @@ public interface RPSOracleQuery {
 	public static final String SQL_POINT_RANKING = "SELECT * FROM "+ TABLE_NAME + " ORDER BY "+ COL_POINT +" DESC";
 	
 	public static final String SQL_UPDATE_POINT = "UPDATE " +TABLE_NAME+" SET " + COL_POINT+ " = ?"+" WHERE "+ COL_MEMBER_NUMBER + " = ?";
+	
+	public static final String SQL_BOARD_INSERT = "INSERT INTO "+ TABLE_BNAME +" VALUES(RPS_BOARD_SEQ.NEXTVAL, ?,?,?,CURRENT_TIMESTAMP)";
+
+	public static final String SQL_BOARD_FIND = "SELECT "+COL_WIN+", "+COL_LOSE +" FROM(SELECT * FROM "+ TABLE_BNAME
+												+ " ORDER BY " +COL_BOARD_NUMBER+ " DESC) WHERE "
+												+COL_MEMBER_ID+" = ? AND ROWNUM = 1";
+	
+	public static final String SQL_BOARD_LEADER_BOARD = "SELECT * FROM (SELECT * FROM "+TABLE_BNAME+" ORDER BY "+ COL_DATE +" DESC) WHERE "+COL_MEMBER_ID+" = ? AND ROWNUM <= 10";
 }

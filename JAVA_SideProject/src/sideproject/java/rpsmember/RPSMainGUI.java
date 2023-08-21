@@ -133,6 +133,16 @@ public class RPSMainGUI {
 		JButton btnLBPerson = new JButton("<html><body><center>다른사람<br>최근 전적</center></body></html>");
 		btnLBPerson.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				SearchLeaderBoard slb = new SearchLeaderBoard();
+				slb.setVisible(true);
+				btnLBPerson.setEnabled(false);
+				
+				slb.addWindowListener(new java.awt.event.WindowAdapter() {
+					public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+						btnLBPerson.setEnabled(true);
+					}
+				});
+				
 			}
 		});
 		btnLBPerson.setFont(new Font("굴림", Font.BOLD, 18));

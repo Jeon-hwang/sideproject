@@ -19,6 +19,7 @@ public class RPSMyInfo extends JFrame {
 	private boolean isUpdate = true;
 	private RPSMemberDTO dto; // mainGUI에서 가져온 dto 내역
 	private RPSMainGUI mainGUI;
+	private MyLeaderBoard myLB;
 	private JPanel JPanel;
 	private JTextField pwTF;
 	private JTextField nameTF;
@@ -34,6 +35,7 @@ public class RPSMyInfo extends JFrame {
 		this.mainGUI = mainGUI;
 		this.dto = mainGUI.getInfo();
 		RPSMemberDAO dao = new RPSMemberDAOImple().getInstance();
+		myLB = new MyLeaderBoard(RPSMyInfo.this);
 		
 		JPanel = new JPanel();
 		setBounds(100, 100, 420, 320);
@@ -133,6 +135,17 @@ public class RPSMyInfo extends JFrame {
 		getContentPane().add(btnDelete);
 		
 		JButton btnGameLB = new JButton("<html><body><center>최근<br>게임 전적</center></body></html>");
+		btnGameLB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myLB.setVisible(true);
+				btnGameLB.setEnabled(false);
+				myLB.addWindowListener(new java.awt.event.WindowAdapter() {
+					public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+						btnGameLB.setEnabled(true);
+					}
+				});
+			}
+		});
 		btnGameLB.setFont(new Font("바탕", Font.BOLD, 14));
 		btnGameLB.setBounds(20, 221, 106, 50);
 		getContentPane().add(btnGameLB);
@@ -197,6 +210,9 @@ public class RPSMyInfo extends JFrame {
 		}
 		
 	}//end RPSMyInfo
+	public RPSMemberDTO getDTO() {
+		return dto;
+	}
 	
 	public void isUpdate(boolean isUpdate) {
 		this.isUpdate=isUpdate;

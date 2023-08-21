@@ -83,7 +83,6 @@ public class RPSLoginGUI extends JFrame {
 //					if(dao.memberLogin("test2","test")) { // 일단 test2로 시험중
 							mainGUI.setInfo(dao.memberInfo(idTF.getText())); // 순서상 데이터를 먼저 보낸 후 버튼 활성화를 한다
 							mainGUI.setLogin(true); // 메인에있는 로그인여부를 true로 바꾸고 메뉴들을 출력한다
-
 							dispose();
 						}
 			}

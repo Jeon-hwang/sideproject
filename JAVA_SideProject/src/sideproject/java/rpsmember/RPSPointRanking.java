@@ -21,7 +21,7 @@ public class RPSPointRanking extends JFrame {
 	private RPSMemberDAO dao = new RPSMemberDAOImple().getInstance();
 	private DefaultTableModel tableModel;
 	private String[] colNames = {"순위","아이디", "이름", "포인트"};
-	private Object[] records = new Object[colNames.length];
+	
 	
 	public RPSPointRanking() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -61,6 +61,7 @@ public class RPSPointRanking extends JFrame {
 		ArrayList<RPSMemberDTO> list = dao.pointList();
 		tableModel.setRowCount(0);
 		for(int i = 0; i < list.size(); i++) {
+			Object[] records = new Object[colNames.length];
 			records[0] = i+1;
 			records[1] = list.get(i).getMemberId();
 			records[2] = list.get(i).getMemberName();
