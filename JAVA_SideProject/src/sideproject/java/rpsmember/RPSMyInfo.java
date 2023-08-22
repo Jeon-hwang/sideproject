@@ -18,6 +18,7 @@ public class RPSMyInfo extends JFrame {
 	
 	private boolean isUpdate = true;
 	private RPSMemberDTO dto; // mainGUI에서 가져온 dto 내역
+	private BoardDTO bdto;
 	private RPSMainGUI mainGUI;
 	private MyLeaderBoard myLB;
 	private JPanel JPanel;
@@ -31,9 +32,11 @@ public class RPSMyInfo extends JFrame {
 	private JButton btnUpdateOn;
 	private JButton btnCancle;
 	
+	
 	public RPSMyInfo(RPSMainGUI mainGUI) {
 		this.mainGUI = mainGUI;
 		this.dto = mainGUI.getInfo();
+		BoardDAO bdao = new BoardDAOImple().getInstance();
 		RPSMemberDAO dao = new RPSMemberDAOImple().getInstance();
 		myLB = new MyLeaderBoard(RPSMyInfo.this);
 		
@@ -91,14 +94,15 @@ public class RPSMyInfo extends JFrame {
 		getContentPane().add(lblGetEmail);
 		
 		JLabel lblWinRank = new JLabel("승리 순위");
+		lblWinRank.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWinRank.setFont(new Font("굴림", Font.BOLD, 16));
-		lblWinRank.setBounds(252, 63, 73, 23);
+		lblWinRank.setBounds(252, 63, 130, 23);
 		getContentPane().add(lblWinRank);
 		
 		JLabel lblPointRank = new JLabel("포인트 순위");
 		lblPointRank.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPointRank.setFont(new Font("굴림", Font.BOLD, 16));
-		lblPointRank.setBounds(235, 106, 96, 38);
+		lblPointRank.setBounds(235, 106, 157, 38);
 		getContentPane().add(lblPointRank);
 		
 		
@@ -197,15 +201,17 @@ public class RPSMyInfo extends JFrame {
 		btnCancle.setBounds(270, 221, 112, 50);
 		getContentPane().add(btnCancle);
 		
-		JLabel lblPRankNum = new JLabel("");
-		lblPRankNum.setFont(new Font("굴림", Font.BOLD, 14));
-		lblPRankNum.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPRankNum.setBounds(335, 106, 57, 38);
-		getContentPane().add(lblPRankNum);
 		ArrayList<RPSMemberDTO> list = dao.pointList();
 		for(int i= 0; i<list.size();i++) {
 			if(list.get(i).getMemberNumber()==dto.getMemberNumber()) {
-				lblPRankNum.setText(Integer.toString(i+1)+"위");  
+				lblPointRank.setText("포인트 순위 : "+ Integer.toString(i+1)+"위");  
+			}
+		}
+		
+		ArrayList<BoardDTO> blist = bdao.winBoard();
+		for(int i=0; i<blist.size(); i++) {
+			if(blist.get(i).getMemberId().equals(dto.getMemberId())) {
+				lblWinRank.setText("승리 순위 : "+ Integer.toString(i+1) +"위");
 			}
 		}
 		

@@ -1,6 +1,7 @@
 package sideproject.java.rpsmember;
 
 import java.awt.Font;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -10,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class MyLeaderBoard extends JFrame {
@@ -53,7 +55,14 @@ public class MyLeaderBoard extends JFrame {
 		table = new JTable(tableModel);
 		table.setBounds(12, 65, 410, 351);
 		contentPane.add(table);
-		
+		DefaultTableCellRenderer celAlignCenter = new DefaultTableCellRenderer();
+		celAlignCenter.setHorizontalAlignment(JLabel.CENTER);
+		table.getColumn("게임 시간").setPreferredWidth(150);
+		table.getColumn("게임번호").setCellRenderer(celAlignCenter);
+		table.getColumn("승리횟수").setCellRenderer(celAlignCenter);
+		table.getColumn("패배횟수").setCellRenderer(celAlignCenter);
+		table.getColumn("게임 시간").setCellRenderer(celAlignCenter);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(12, 64, 410, 352);
 		contentPane.add(scrollPane);
@@ -62,13 +71,14 @@ public class MyLeaderBoard extends JFrame {
 
 
 	private void leaderBoardTable() {
-		ArrayList<BoardDTO> list = dao.myLeaderBoard(dto.getMemberId());
+		ArrayList<BoardDTO> list = dao.leaderBoard(dto.getMemberId());
 		tableModel.setRowCount(0);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
 		for(int i = 0; i < list.size(); i++) {
 			records[0] = list.get(i).getBoardNum();
 			records[1] = list.get(i).getBoardWin();
 			records[2] = list.get(i).getBoardLose();
-			records[3] = list.get(i).getBoardTime();
+			records[3] = sdf.format(list.get(i).getBoardTime());
 			tableModel.addRow(records);
 		}
 		

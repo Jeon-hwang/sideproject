@@ -32,9 +32,9 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 
 		try {
 			DriverManager.registerDriver(new OracleDriver());
-			System.out.println("드라이버 로드 성공");
+//			System.out.println("드라이버 로드 성공");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			System.out.println("DB 연결 성공");
+//			System.out.println("DB 연결 성공");
 
 			pstmt = conn.prepareStatement(SQL_INSERT);
 			// "INSERT INTO "+ TABLE_NAME+" VALUES(RPS_SEQ, ?, ?, ?, ?, 1000)";
@@ -77,9 +77,9 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 		boolean result = false;
 		try {
 			DriverManager.registerDriver(new OracleDriver());
-			System.out.println("드라이버 로드 성공");
+//			System.out.println("드라이버 로드 성공");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			System.out.println("DB 연결 성공");
+//			System.out.println("DB 연결 성공");
 
 			pstmt = conn.prepareStatement(SQL_LOGIN);
 			// "SELECT "+COL_MEMBER_PASSWORD+" FROM "+ TABLE_NAME +" WHERE "+ COL_MEMBER_ID
@@ -131,9 +131,9 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 
 		try {
 			DriverManager.registerDriver(new OracleDriver());
-			System.out.println("드라이버 로드 성공2");
+//			System.out.println("드라이버 로드 성공2");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			System.out.println("DB 연결 성공2");
+//			System.out.println("DB 연결 성공2");
 
 			pstmt = conn.prepareStatement(SQL_INFO);
 			// "SELECT * FROM "+ TABLE_NAME +" WHERE "+ COL_MEMBER_ID + " = ?";
@@ -178,9 +178,9 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 		int result = 0;
 		try {
 			DriverManager.registerDriver(new OracleDriver());
-			System.out.println("드라이버 로드 성공");
+//			System.out.println("드라이버 로드 성공");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			System.out.println("DB 연결 성공");
+//			System.out.println("DB 연결 성공");
 
 			pstmt = conn.prepareStatement(SQL_UPDATE);
 			// "UPDATE " + TABLE_NAME + " SET " + COL_MEMBER_PASSWORD + " = ?, "
@@ -218,10 +218,10 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 
 		try {
 			DriverManager.registerDriver(new OracleDriver());
-			System.out.println("드라이버 로드 성공");
+//			System.out.println("드라이버 로드 성공");
 
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			System.out.println("DB 연결 성공");
+//			System.out.println("DB 연결 성공");
 
 			pstmt = conn.prepareStatement(SQL_DELETE);
 			// "DELETE "+ TABLE_NAME + " WHERE " + COL_MEMBER_NUMBER + " = ?";
@@ -246,9 +246,9 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 
 		try {
 			DriverManager.registerDriver(new OracleDriver());
-			System.out.println("드라이버 로드 성공");
+//			System.out.println("드라이버 로드 성공");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			System.out.println("DB 연결 성공");
+//			System.out.println("DB 연결 성공");
 
 			pstmt = conn.prepareStatement(SQL_POINT_RANKING);
 
@@ -280,9 +280,9 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 		ResultSet rs = null;
 		try {
 			DriverManager.registerDriver(new OracleDriver());
-			System.out.println("드라이버 로드 성공");
+//			System.out.println("드라이버 로드 성공");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			System.out.println("DB 연결 성공");
+//			System.out.println("DB 연결 성공");
 
 			pstmt = conn.prepareStatement(SQL_UPDATE_POINT);
 			// "UPDATE " +TABLE_NAME+" SET " + COL_POINT+ " = ? WHERE "+ COL_MEMBER_NUMBER +

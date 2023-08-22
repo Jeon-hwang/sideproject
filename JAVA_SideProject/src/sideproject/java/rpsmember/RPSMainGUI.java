@@ -7,8 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import sideproject.java.rpsgame.MainGame;
-
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -99,6 +97,7 @@ public class RPSMainGUI {
 					@Override
 					public void windowClosed(java.awt.event.WindowEvent windowEvent) {
 						btnMyInfo.setEnabled(true);
+						btnLogin.setEnabled(true);
 					}// 해당 프레임을 종료시 버튼을 다시 활성화
 				});
 			}
@@ -186,6 +185,18 @@ public class RPSMainGUI {
 		frame.getContentPane().add(btnGameStart);
 		
 		JButton btnWinRank = new JButton("<html><body><center>승리 횟수<br>랭킹</center></body></html>");
+		btnWinRank.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WinningRanking winRank = new WinningRanking();
+				winRank.setVisible(true);
+				btnWinRank.setEnabled(false);
+				winRank.addWindowListener(new java.awt.event.WindowAdapter(){
+					public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+						btnWinRank.setEnabled(true);
+					}
+				});
+			}
+		});
 		btnWinRank.setFont(new Font("굴림", Font.BOLD, 18));
 		btnWinRank.setBounds(26, 186, 117, 58);
 		frame.getContentPane().add(btnWinRank);

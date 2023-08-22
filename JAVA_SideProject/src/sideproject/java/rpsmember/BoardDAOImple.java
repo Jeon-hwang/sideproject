@@ -12,7 +12,7 @@ import oracle.jdbc.OracleDriver;
 
 public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 	private BoardDAOImple instance = null;
-	private ArrayList<BoardDTO> list = new ArrayList<>();
+	
 	public BoardDAOImple getInstance() {
 		if(instance==null) {
 			instance = new BoardDAOImple(); 
@@ -29,9 +29,9 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 		int loseCount = 0;
 		try {
 			DriverManager.registerDriver(new OracleDriver());
-			System.out.println("드라이버 로드 성공");
+//			System.out.println("드라이버 로드 성공");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			System.out.println("DB 연결 성공");
+//			System.out.println("DB 연결 성공");
 			
 			pstmt = conn.prepareStatement(SQL_BOARD_FIND);
 			pstmt.setString(1,dto.getMemberId());
@@ -42,7 +42,7 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 				winCount = rs.getInt(1);
 				loseCount = rs.getInt(2);
 			}
-			System.out.println(winCount+" "+loseCount);
+			
 			pstmt.close();
 //			SELECT * FROM(SELECT * FROM RPS_BOARD ORDER BY BOARD_NUMBER DESC) WHERE MEMBER_ID = ? AND ROWNUM = 1;
 			pstmt = conn.prepareStatement(SQL_BOARD_INSERT);
@@ -73,31 +73,35 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 	}// end gameResult
 
 	@Override
-	public ArrayList<BoardDTO> myLeaderBoard(String id) {
+	public ArrayList<BoardDTO> leaderBoard(String id) {
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-			
+			ArrayList<BoardDTO> list = new ArrayList<>();
 			try {
 				DriverManager.registerDriver(new OracleDriver());
-				System.out.println("드라이버 로드 성공");
+//				System.out.println("드라이버 로드 성공");
 				conn = DriverManager.getConnection(URL, USER, PASSWORD);
-				System.out.println("DB 연결 성공");
+//				System.out.println("DB 연결 성공");
 				
 				pstmt=conn.prepareStatement(SQL_BOARD_LEADER_BOARD);
 				pstmt.setString(1, id);
-				
+				if(pstmt!=null) {
 				rs = pstmt.executeQuery();
+				}else {
+					System.out.println("없는 아이디");
+				}
 				
 				while(rs.next()) {
 					int boardNum = rs.getInt(1);
+					String memberId = rs.getString(2);
 					int boardWin = rs.getInt(3);
 					int boardLose = rs.getInt(4);
 					Date boardTime = rs.getTimestamp(5);
-					BoardDTO bdto = new BoardDTO(boardNum, boardWin, boardLose, boardTime);
+					BoardDTO bdto = new BoardDTO(boardNum,memberId, boardWin, boardLose, boardTime);
 					
 					list.add(bdto);
-					System.out.println(list.toString());
+//					System.out.println(list.toString());
 				}
 				
 			} catch (SQLException e) {
@@ -108,4 +112,38 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 		return list;
 	}
 
+	@Override
+	public ArrayList<BoardDTO> winBoard() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<BoardDTO> list = new ArrayList<>();
+		
+		try {
+			DriverManager.registerDriver(new OracleDriver());
+//			System.out.println("드라이버 로드 성공");
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+//			System.out.println("DB 연결 성공");
+			
+			pstmt=conn.prepareStatement(SQL_WINNING_RANKING);
+			// "SELECT * FROM "+ TABLE_BNAME + " ORDER BY "+ COL_WIN +" DESC";
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String memberId = rs.getString(1);
+				int boardWin = rs.getInt(2);
+				int boardLose = rs.getInt(3);
+				BoardDTO dto = new BoardDTO(0,memberId, boardWin, boardLose, null);
+				
+				list.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	
 }

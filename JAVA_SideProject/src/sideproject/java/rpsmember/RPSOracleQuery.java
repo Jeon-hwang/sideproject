@@ -45,4 +45,8 @@ public interface RPSOracleQuery {
 												+COL_MEMBER_ID+" = ? AND ROWNUM = 1";
 	
 	public static final String SQL_BOARD_LEADER_BOARD = "SELECT * FROM (SELECT * FROM "+TABLE_BNAME+" ORDER BY "+ COL_DATE +" DESC) WHERE "+COL_MEMBER_ID+" = ? AND ROWNUM <= 10";
+	
+	public static final String SQL_WINNING_RANKING = "SELECT "+ COL_MEMBER_ID+", "+ COL_WIN+", "+COL_LOSE
+			+" FROM (SELECT "+COL_MEMBER_ID+", "+ COL_WIN+", "	+ COL_LOSE + ", "+"ROW_NUMBER() OVER (PARTITION BY "+COL_MEMBER_ID+ " ORDER BY "+COL_DATE+" DESC) AS rn"
+			+ " FROM "+TABLE_BNAME+" ORDER BY "+COL_WIN+" DESC)subquery WHERE rn = 1";
 }

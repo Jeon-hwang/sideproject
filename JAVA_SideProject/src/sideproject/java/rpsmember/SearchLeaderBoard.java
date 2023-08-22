@@ -3,6 +3,7 @@ package sideproject.java.rpsmember;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -14,10 +15,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class SearchLeaderBoard extends JFrame {
 
+	private JLabel lblFoundId;
 	private JPanel contentPane;
 	private JTextField findIdTF;
 	private JTable table;
@@ -30,6 +33,21 @@ public class SearchLeaderBoard extends JFrame {
 	
 	
 	public SearchLeaderBoard() {
+		interfaceGUI();
+		
+		JButton findBtn = new JButton("검색");
+		findBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchLB();
+			}
+		});
+		findBtn.setBounds(321, 12, 66, 39);
+		contentPane.add(findBtn);
+	}//end SearchLeaderBoard
+
+
+
+	private void interfaceGUI() {
 		dao = new BoardDAOImple().getInstance();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 443, 422);
@@ -52,7 +70,8 @@ public class SearchLeaderBoard extends JFrame {
 		contentPane.add(findIdTF);
 		findIdTF.setColumns(10);
 		
-		JLabel lblFoundId = new JLabel("님의 전적 최근 10게임");
+		lblFoundId = new JLabel("");
+		lblFoundId.setVisible(false);
 		lblFoundId.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFoundId.setFont(new Font("굴림", Font.BOLD, 20));
 		lblFoundId.setBounds(12, 59, 403, 39);
@@ -62,6 +81,8 @@ public class SearchLeaderBoard extends JFrame {
 		scrollPane.setBounds(12, 96, 403, 277);
 		contentPane.add(scrollPane);
 		
+		DefaultTableCellRenderer celAlignCenter = new DefaultTableCellRenderer();
+		celAlignCenter.setHorizontalAlignment(JLabel.CENTER);
 		tableModel = new DefaultTableModel(header, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -70,30 +91,35 @@ public class SearchLeaderBoard extends JFrame {
 		}; // 각 cell 변경 불가능 ;
 		table = new JTable(tableModel);
 		scrollPane.setViewportView(table);
+		table.getColumn("게임 시간").setPreferredWidth(150);
+		table.getColumn("게임번호").setCellRenderer(celAlignCenter);
+		table.getColumn("승리 횟수").setCellRenderer(celAlignCenter);
+		table.getColumn("패배 횟수").setCellRenderer(celAlignCenter);
+		table.getColumn("게임 시간").setCellRenderer(celAlignCenter);
 		
-		
-		JButton findBtn = new JButton("검색");
-		findBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+	}//end interfactGUI()
 
-				tableModel.setRowCount(0);		
-				String findId = findIdTF.getText();
-				if(list==null) {
-				list = dao.myLeaderBoard(findId);
-				}
-				for(int i=0; i<list.size(); i++) {
-					Object[] records = new Object[header.length];
-					records[0] = list.get(i).getBoardNum();
-					records[1] = list.get(i).getBoardWin();
-					records[2] = list.get(i).getBoardLose();
-					records[3] = list.get(i).getBoardTime();
-					tableModel.addRow(records);
-				}
-				list=null;
-				
-			}
-		});
-		findBtn.setBounds(321, 12, 66, 39);
-		contentPane.add(findBtn);
-	}
+
+
+	protected void searchLB() {
+		lblFoundId.setVisible(true);
+		lblFoundId.setText(findIdTF.getText()+"님의 전적 최근 10게임");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+		String findId = findIdTF.getText();
+		if(list==null) {
+		list = dao.leaderBoard(findId);
+		}
+		tableModel.setRowCount(0);
+		
+		for(int i=0; i<list.size(); i++) {
+			Object[] records = new Object[header.length];
+			records[0] = list.get(i).getBoardNum();
+			records[1] = list.get(i).getBoardWin();
+			records[2] = list.get(i).getBoardLose();
+			records[3] = sdf.format(list.get(i).getBoardTime());
+			tableModel.addRow(records);
+		}
+		list=null;
+	
+	}//end searchLB()
 }

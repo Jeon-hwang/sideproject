@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
@@ -24,6 +25,11 @@ public class RPSPointRanking extends JFrame {
 	
 	
 	public RPSPointRanking() {
+		pointInterface();
+		rankingTable();
+	}//end RPSPointRanking()
+	
+	private void pointInterface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 649, 649);
 		contentPane = new JPanel();
@@ -32,7 +38,8 @@ public class RPSPointRanking extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
+		DefaultTableCellRenderer celAlignCenter = new DefaultTableCellRenderer();
+		celAlignCenter.setHorizontalAlignment(JLabel.CENTER);
 		tableModel = new DefaultTableModel(colNames, 0) {
 
 			@Override
@@ -41,10 +48,15 @@ public class RPSPointRanking extends JFrame {
 			}
 		}; // 각 cell 변경 불가능 
 		
+		
 		table = new JTable(tableModel);
 		table.setBounds(5, 97, 623, 508);
 		contentPane.add(table);
-		rankingTable();
+		
+		table.getColumn("순위").setCellRenderer(celAlignCenter);
+		table.getColumn("아이디").setCellRenderer(celAlignCenter);
+		table.getColumn("이름").setCellRenderer(celAlignCenter);
+		table.getColumn("포인트").setCellRenderer(celAlignCenter);
 		
 		JLabel lblTitle = new JLabel("포인트별 랭킹");
 		lblTitle.setFont(new Font("굴림", Font.BOLD, 18));
@@ -55,8 +67,9 @@ public class RPSPointRanking extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(5, 97, 628, 513);
 		contentPane.add(scrollPane);
-	}//end RPSPointRanking()
-	
+			
+	}//end pointInterface()
+
 	private void rankingTable() {
 		ArrayList<RPSMemberDTO> list = dao.pointList();
 		tableModel.setRowCount(0);
@@ -68,5 +81,5 @@ public class RPSPointRanking extends JFrame {
 			records[3] = list.get(i).getMemberPoint();
 			tableModel.addRow(records);			
 		}
-	}
+	}//end rankingTable()
 }
