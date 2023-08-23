@@ -207,7 +207,6 @@ public class RPSMyInfo extends JFrame {
 				lblPointRank.setText("포인트 순위 : "+ Integer.toString(i+1)+"위");  
 			}
 		}
-		
 		ArrayList<BoardDTO> blist = bdao.winBoard();
 		for(int i=0; i<blist.size(); i++) {
 			if(blist.get(i).getMemberId().equals(dto.getMemberId())) {
@@ -220,7 +219,7 @@ public class RPSMyInfo extends JFrame {
 		return dto;
 	}
 	
-	public void isUpdate(boolean isUpdate) {
+	private void isUpdate(boolean isUpdate) {
 		this.isUpdate=isUpdate;
 		lblGetName.setVisible(isUpdate);
 		lblGetEmail.setVisible(isUpdate);

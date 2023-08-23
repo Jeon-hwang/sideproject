@@ -86,11 +86,9 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 				
 				pstmt=conn.prepareStatement(SQL_BOARD_LEADER_BOARD);
 				pstmt.setString(1, id);
-				if(pstmt!=null) {
+			
 				rs = pstmt.executeQuery();
-				}else {
-					System.out.println("없는 아이디");
-				}
+				
 				
 				while(rs.next()) {
 					int boardNum = rs.getInt(1);
@@ -107,6 +105,16 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally {
+				try {
+					rs.close();
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 			
 		return list;
@@ -141,6 +149,15 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return list;
 	}

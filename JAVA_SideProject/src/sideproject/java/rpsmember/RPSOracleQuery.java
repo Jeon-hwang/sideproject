@@ -7,6 +7,7 @@ public interface RPSOracleQuery {
 	
 	public static final String TABLE_NAME = "RPS_MEMBER";
 	public static final String TABLE_BNAME = "RPS_BOARD";
+	public static final String TABLE_INAME = "RPS_ITEM";
 	
 	public static final String COL_MEMBER_NUMBER = "MEMBER_NUMBER";
 	public static final String COL_MEMBER_ID = "MEMBER_ID";
@@ -20,6 +21,7 @@ public interface RPSOracleQuery {
 	public static final String COL_LOSE = "BOARD_LOSE";
 	public static final String COL_DATE = "BOARD_DATE";
 	
+	public static final String COL_ITEM_ID = "ITEM_ID";
 	
 	public static final String SQL_INSERT = "INSERT INTO "+ TABLE_NAME+
 											" VALUES(RPS_SEQ.NEXTVAL, ?, ?, ?, ?, 1000)";
@@ -49,4 +51,6 @@ public interface RPSOracleQuery {
 	public static final String SQL_WINNING_RANKING = "SELECT "+ COL_MEMBER_ID+", "+ COL_WIN+", "+COL_LOSE
 			+" FROM (SELECT "+COL_MEMBER_ID+", "+ COL_WIN+", "	+ COL_LOSE + ", "+"ROW_NUMBER() OVER (PARTITION BY "+COL_MEMBER_ID+ " ORDER BY "+COL_DATE+" DESC) AS rn"
 			+ " FROM "+TABLE_BNAME+" ORDER BY "+COL_WIN+" DESC)subquery WHERE rn = 1";
+
+	public static final String SQL_ITEM_INFO = "SELECT * FROM "+TABLE_INAME+" WHERE "+COL_ITEM_ID+" = ?";
 }

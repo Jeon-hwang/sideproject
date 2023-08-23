@@ -77,6 +77,7 @@ public class RPSMemberInsertGUI extends JFrame {
 				int result = dao.memberInsert(dto);
 				
 				if(result == 1) {
+					JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다!", "등록 완료", JOptionPane.DEFAULT_OPTION);
 					dispose();
 				}
 				}

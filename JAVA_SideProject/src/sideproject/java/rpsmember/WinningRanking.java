@@ -22,12 +22,11 @@ public class WinningRanking extends JFrame {
 	private Object[] records = new Object[header.length];
 	private BoardDAO dao = new BoardDAOImple().getInstance();
 	
-	
 	public WinningRanking() {
 		winInterface();
 		winBoardTable();
 	}
-
+	
 	private void winInterface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 500);
@@ -37,11 +36,11 @@ public class WinningRanking extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("승리 횟수별 랭킹");
-		lblNewLabel.setFont(new Font("굴림", Font.BOLD, 20));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(0, 0, 484, 54);
-		contentPane.add(lblNewLabel);
+		JLabel lblTitle = new JLabel("승리 횟수별 랭킹");
+		lblTitle.setFont(new Font("굴림", Font.BOLD, 20));
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setBounds(0, 0, 484, 54);
+		contentPane.add(lblTitle);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 48, 484, 413);

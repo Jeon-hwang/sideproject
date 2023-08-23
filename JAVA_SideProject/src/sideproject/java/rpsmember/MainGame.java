@@ -25,7 +25,6 @@ public class MainGame extends JFrame {
 	
 	public MainGame(RPSMainGUI mainGUI) {
 		this.mainGUI = mainGUI;
-		
 		dto = mainGUI.getInfo();
 		myPoint = dto.getMemberPoint();
 		
@@ -56,11 +55,9 @@ public class MainGame extends JFrame {
 					game.setVisible(false);
 					game.setBounds(0, 50, 444, 281);
 					contentPane.add(game);
-				
-				
+	
 
 					if (Integer.parseInt(pointTF.getText()) >= 0 && Integer.parseInt(pointTF.getText()) <= 100) {
-					
 						
 						if (myPoint >= 0 && myPoint > Integer.parseInt(pointTF.getText())) {
 							game.setVisible(true); //게임창으로 전환

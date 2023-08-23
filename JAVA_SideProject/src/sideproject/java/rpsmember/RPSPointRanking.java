@@ -6,23 +6,20 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
 
 public class RPSPointRanking extends JFrame {
 	
-
-
 	private JPanel contentPane;
 	private JTable table;
 	private RPSMemberDAO dao = new RPSMemberDAOImple().getInstance();
 	private DefaultTableModel tableModel;
 	private String[] colNames = {"순위","아이디", "이름", "포인트"};
-	
 	
 	public RPSPointRanking() {
 		pointInterface();
@@ -41,7 +38,6 @@ public class RPSPointRanking extends JFrame {
 		DefaultTableCellRenderer celAlignCenter = new DefaultTableCellRenderer();
 		celAlignCenter.setHorizontalAlignment(JLabel.CENTER);
 		tableModel = new DefaultTableModel(colNames, 0) {
-
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
