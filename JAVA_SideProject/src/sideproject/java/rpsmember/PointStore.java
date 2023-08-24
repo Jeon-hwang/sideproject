@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -16,16 +17,22 @@ import javax.swing.border.EmptyBorder;
 public class PointStore extends JFrame {
 
 	private JPanel contentPane;
+	private JLabel lblMyPoint;
 	private RPSMainGUI mainGUI;
 	private RPSMemberDTO dto;
-	private int myPoint;
+	private ItemDAO idao;
+	private MyInventoryDAO mydao;
+	private RPSMemberDAO dao;
 	
 	public PointStore(RPSMainGUI mainGUI) {
 		
 		this.mainGUI = mainGUI;
 		this.dto = mainGUI.getInfo();
-		ItemDAO idao = new ItemDAOImple().getInstance();
-		myPoint = dto.getMemberPoint();
+		idao = new ItemDAOImple().getInstance();
+		mydao = new MyInventoryDAOImple().getInstance();
+		dao = new RPSMemberDAOImple().getInstance();
+		
+		
 		
 		ImageIcon shield = new ImageIcon("res/shield.jpg");
 		ImageIcon itemDouble = new ImageIcon("res/double.jpg");
@@ -48,7 +55,7 @@ public class PointStore extends JFrame {
 		lblTitle.setBounds(12, 10, 104, 33);
 		contentPane.add(lblTitle);
 		
-		JLabel lblMyPoint = new JLabel("내 포인트 : "+myPoint);
+		lblMyPoint = new JLabel("내 포인트 : "+dto.getMemberPoint());
 		lblMyPoint.setFont(new Font("굴림", Font.BOLD, 14));
 		lblMyPoint.setBounds(212, 14, 160, 27);
 		contentPane.add(lblMyPoint);
@@ -57,32 +64,34 @@ public class PointStore extends JFrame {
 		btnShield.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnShield.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ItemDTO shield = idao.getItemInfo(1001);
-				myPoint -= shield.getItemPrice();
-				mainGUI.setPoint(myPoint);
-				lblMyPoint.setText("내 포인트 : "+myPoint);
+				ItemDTO shieldItem = null;
+				buyItem(shieldItem,1001);
 			}
+
+			
 		});
 		btnShield.setHorizontalAlignment(SwingConstants.CENTER);
 		btnShield.setBounds(12, 67, 90, 90);
 		contentPane.add(btnShield);
 		
-		JButton btnDouble = new JButton(itemDouble);
-		btnDouble.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnDouble.addActionListener(new ActionListener() {
+		JButton btnDoubleUp = new JButton(itemDouble);
+		btnDoubleUp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnDoubleUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				idao.getItemInfo(1002);
+				ItemDTO doubleUpItem = null;
+				buyItem(doubleUpItem,1002);
 			}
 		});
-		btnDouble.setHorizontalAlignment(SwingConstants.CENTER);
-		btnDouble.setBounds(142, 67, 90, 90);
-		contentPane.add(btnDouble);
+		btnDoubleUp.setHorizontalAlignment(SwingConstants.CENTER);
+		btnDoubleUp.setBounds(142, 67, 90, 90);
+		contentPane.add(btnDoubleUp);
 		
 		JButton btnTimeSlow = new JButton(timeSlow);
 		btnTimeSlow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnTimeSlow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				idao.getItemInfo(1004);
+				ItemDTO timeSlowItem = null;
+				buyItem(timeSlowItem, 1004);
 			}
 		});
 		btnTimeSlow.setHorizontalAlignment(SwingConstants.CENTER);
@@ -93,7 +102,8 @@ public class PointStore extends JFrame {
 		btnJustHand.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnJustHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				idao.getItemInfo(1005);
+				ItemDTO justHandItem = null;
+				buyItem(justHandItem, 1005);
 			}
 		});
 		btnJustHand.setHorizontalAlignment(SwingConstants.CENTER);
@@ -104,7 +114,8 @@ public class PointStore extends JFrame {
 		btnDiamond.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDiamond.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				idao.getItemInfo(1003);
+				ItemDTO diamondItem = null;
+				buyItem(diamondItem,1003);
 			}
 		});
 		btnDiamond.setHorizontalAlignment(SwingConstants.CENTER);
@@ -115,7 +126,8 @@ public class PointStore extends JFrame {
 		btnReset.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				idao.getItemInfo(1006);
+				ItemDTO resetItem = null;
+				buyItem(resetItem,1006);
 			}
 		});
 		btnReset.setHorizontalAlignment(SwingConstants.CENTER);
@@ -138,7 +150,7 @@ public class PointStore extends JFrame {
 		timeTxt.setBounds(12, 368, 90, 94);
 		contentPane.add(timeTxt);
 		
-		JLabel JustTxt = new JLabel("<html><body><center>손 금지<br>50pt<br>컴퓨터 손을 한개 봉인한다.</center></body></html>");
+		JLabel JustTxt = new JLabel("<html><body><center>손 봉인<br>50pt<br>컴퓨터 손을 한개 봉인한다.</center></body></html>");
 		JustTxt.setBounds(142, 368, 90, 94);
 		contentPane.add(JustTxt);
 		
@@ -146,4 +158,16 @@ public class PointStore extends JFrame {
 		resetTxt.setBounds(267, 368, 90, 94);
 		contentPane.add(resetTxt);
 	}
+	private void buyItem(ItemDTO item,int itemId) {
+		// TODO Auto-generated method stub
+		item = idao.getItemInfo(itemId);
+		int result = mydao.buyItem(dto, item);
+		dto = dao.memberInfo(dto.getMemberId());
+		mainGUI.setInfo(dto);
+		lblMyPoint.setText("내 포인트 : "+dto.getMemberPoint());
+		if(result == 1) {
+			JOptionPane.showMessageDialog(null, item.getItemName()+"를(을) 구매하였습니다!", "구매 성공", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
 }
+

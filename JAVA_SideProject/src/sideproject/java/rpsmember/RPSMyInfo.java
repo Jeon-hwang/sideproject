@@ -18,7 +18,6 @@ public class RPSMyInfo extends JFrame {
 	
 	private boolean isUpdate = true;
 	private RPSMemberDTO dto; // mainGUI에서 가져온 dto 내역
-	private BoardDTO bdto;
 	private RPSMainGUI mainGUI;
 	private MyLeaderBoard myLB;
 	private JPanel JPanel;

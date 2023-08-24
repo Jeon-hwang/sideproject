@@ -42,7 +42,7 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 				winCount = rs.getInt(1);
 				loseCount = rs.getInt(2);
 			}
-			
+			rs.close();
 			pstmt.close();
 //			SELECT * FROM(SELECT * FROM RPS_BOARD ORDER BY BOARD_NUMBER DESC) WHERE MEMBER_ID = ? AND ROWNUM = 1;
 			pstmt = conn.prepareStatement(SQL_BOARD_INSERT);
@@ -62,7 +62,7 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 			e.printStackTrace();
 		}finally {
 			try {
-				rs.close();
+				
 				pstmt.close();
 				conn.close();
 			} catch (SQLException e) {

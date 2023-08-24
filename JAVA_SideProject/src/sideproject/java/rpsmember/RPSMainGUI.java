@@ -274,6 +274,7 @@ public class RPSMainGUI {
 
 	public void setInfo(RPSMemberDTO dto) {
 		this.dto = dto;
+		lblMyPoint.setText("내 포인트 : " + dto.getMemberPoint());
 	}
 
 	public RPSMemberDTO getInfo() {
