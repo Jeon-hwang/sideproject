@@ -62,7 +62,7 @@ public class WinningRanking extends JFrame {
 		ArrayList<BoardDTO> list = dao.winBoard();
 		tableModel.setRowCount(0);
 		for(int i=0 ; i<list.size(); i++) {
-			records[0] = i;
+			records[0] = i+1;
 			records[1] = list.get(i).getMemberId();
 			records[2] = list.get(i).getBoardWin();
 			records[3] = list.get(i).getBoardLose();

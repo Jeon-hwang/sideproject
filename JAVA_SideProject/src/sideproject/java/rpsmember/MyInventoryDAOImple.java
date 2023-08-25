@@ -122,6 +122,73 @@ public class MyInventoryDAOImple implements MyInventoryDAO,RPSOracleQuery {
 		return list;
 	}
 	
+	@Override
+	public MyInventoryDTO getInventory(RPSMemberDTO dto, ItemDTO idto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		MyInventoryDTO result = null;
+		try {
+			DriverManager.deregisterDriver(new OracleDriver());
+
+			conn = DriverManager.getConnection(URL,USER,PASSWORD);
+	
+			pstmt = conn.prepareStatement(SQL_ITEM_COUNT);
+			pstmt.setString(1,dto.getMemberId());
+			pstmt.setString(2,idto.getItemName());
+			
+			rs = pstmt.executeQuery();
+			
+			
+//			System.out.println("알에스" +rs.toString());
+			if(rs.next()) {
+//				System.out.println("이프문 작동을 안하나?");
+//				System.out.println(rs.getInt(1));
+				int itemCount = rs.getInt(1);
+//				System.out.println("여기가 부적합한가");
+				System.out.println(itemCount);
+				result = new MyInventoryDTO(0, dto.getMemberId(), idto.getItemName(), itemCount, null);
+				
+				System.out.println(result.toString()); 
+			}else {
+//				System.out.println("서버에 아예 없을경우");
+				result = new MyInventoryDTO(0, dto.getMemberId(), idto.getItemName(), 0, null);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return result;
+	}
+
+	@Override
+	public void usedItem(MyInventoryDTO myidto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			DriverManager.deregisterDriver(new OracleDriver());
+			conn = DriverManager.getConnection(URL,USER,PASSWORD);
+			
+			pstmt = conn.prepareStatement(SQL_BOARD_FIND);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 }

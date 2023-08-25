@@ -20,6 +20,7 @@ public class MainGame extends JFrame {
 	private JButton btnStart;
 	private GameStart game;
 	private RPSMemberDTO dto;
+	private RPSMemberDTO backUpdto;
 	private int myPoint;
 	private JLabel lblMyPoint;
 	
@@ -27,6 +28,7 @@ public class MainGame extends JFrame {
 		this.mainGUI = mainGUI;
 		dto = mainGUI.getInfo();
 		myPoint = dto.getMemberPoint();
+		backUpdto=dto;
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 460, 370);
@@ -108,6 +110,11 @@ public class MainGame extends JFrame {
 	public void setInfo(RPSMemberDTO dto) {
 		this.dto = dto;
 	}
+	
+	public RPSMemberDTO getBackUp() {
+		return backUpdto;
+	}
+	
 	public void isRestart() {
 		btnStart.setEnabled(true);
 		pointTF.setEnabled(true);

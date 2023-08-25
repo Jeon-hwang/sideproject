@@ -69,4 +69,6 @@ public interface RPSOracleQuery {
 												+COL_MEMBER_ID+", "+COL_ITEM_NAME+", "+COL_ITEM_COUNT+", ROW_NUMBER() OVER (PARTITION BY "+COL_ITEM_NAME
 												+" ORDER BY "+COL_ITEM_DATE+" DESC) AS rn"+ " FROM "+TABLE_INVNAME
 												+" WHERE "+COL_MEMBER_ID+" = ? ORDER BY "+COL_ITEM_NAME+", "+COL_ITEM_DATE+") WHERE rn = 1";
+	
+
 }

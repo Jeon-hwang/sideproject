@@ -21,12 +21,13 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 	}
 	
 	@Override
-	public void gameResult(RPSMemberDTO dto,boolean gameResult) {
+	public int gameResult(RPSMemberDTO dto,boolean gameResult) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int winCount = 0;
 		int loseCount = 0;
+		int result = 0;
 		try {
 			DriverManager.registerDriver(new OracleDriver());
 //			System.out.println("드라이버 로드 성공");
@@ -52,10 +53,12 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 			pstmt.setString(1, dto.getMemberId());
 			pstmt.setInt(2, winCount+1);
 			pstmt.setInt(3, loseCount);
+			result = 1;
 			}else {
 				pstmt.setString(1, dto.getMemberId());
 				pstmt.setInt(2, winCount);
 				pstmt.setInt(3, loseCount+1);
+				result = 2;
 			}
 			pstmt.executeUpdate();
 			} catch (SQLException e) {
@@ -69,7 +72,7 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 				e.printStackTrace();
 			}
 		}
-		
+		return result;
 	}// end gameResult
 
 	@Override
