@@ -24,7 +24,7 @@ public class ItemDAOImple implements ItemDAO, RPSOracleQuery {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		ItemDTO dto = null;
+		ItemDTO idto = null;
 		
 		try {
 			DriverManager.registerDriver(new OracleDriver());
@@ -41,10 +41,12 @@ public class ItemDAOImple implements ItemDAO, RPSOracleQuery {
 			if(rs.next()) {
 				String itemName = rs.getString(2);
 				int itemPrice = rs.getInt(3);
-				dto = new ItemDTO(itemId, itemName, itemPrice);
+				idto = new ItemDTO(itemId, itemName, itemPrice);
+	
 			}
 			
-			System.out.println(dto.toString());
+			System.out.println(idto.toString());
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -61,7 +63,7 @@ public class ItemDAOImple implements ItemDAO, RPSOracleQuery {
 			
 		}
 		
-		return dto;
+		return idto;
 	}
 	
 	

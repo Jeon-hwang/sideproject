@@ -182,10 +182,25 @@ public class MyInventoryDAOImple implements MyInventoryDAO,RPSOracleQuery {
 			DriverManager.deregisterDriver(new OracleDriver());
 			conn = DriverManager.getConnection(URL,USER,PASSWORD);
 			
-			pstmt = conn.prepareStatement(SQL_BOARD_FIND);
+			pstmt = conn.prepareStatement(SQL_ITEM_BUY);
+			pstmt.setString(1, myidto.getMemberId());
+			pstmt.setString(2, myidto.getItemName());
+			pstmt.setInt(3, myidto.getItemCount()-1);
+		
+			pstmt.executeUpdate();
+			System.out.println("DB에 들어가나요?");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		
 	}

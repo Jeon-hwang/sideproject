@@ -27,6 +27,7 @@ public class GameStart extends JPanel {
 	private RPSMemberDAO dao;
 	private BoardDAO bdao;
 	private MyInventoryDTO myidto;
+	private MyInventoryDAO myidao;
 	private int gameResult=0; //0 무승부 1 승리 2 패배
 	
 	private MainGame mainGame;
@@ -36,8 +37,9 @@ public class GameStart extends JPanel {
 	private JLabel lblSetItem;
 
 	public GameStart(MainGame mainGame) {
-		dao = new RPSMemberDAOImple();
-		bdao = new BoardDAOImple();
+		dao = new RPSMemberDAOImple().getInstance();
+		bdao = new BoardDAOImple().getInstance();
+		myidao = new MyInventoryDAOImple().getInstance();
 		this.mainGame = mainGame;
 
 		settingPoint = mainGame.settingPoint();
@@ -239,7 +241,7 @@ public class GameStart extends JPanel {
 					
 					if(myidto != null) {// 아이템이 선택 되어있다면
 						switch(myidto.getItemName()) {
-						case "실드" : usedShield(gameResult); 
+						case "실드" : usedShield(gameResult); // 이거 나중에 아이템 디비에서 꺼내오는걸로 바꾸기 (동적으로 변환)
 							break; 
 						case "더블업" : usedDoubleUp(gameResult);
 							break;
@@ -253,8 +255,16 @@ public class GameStart extends JPanel {
 							break;
 						}
 					}
+					
 					if(gameResult != 0) {//무승부가 아닐때만 컴플리트 게임 작동
+						System.out.println("이거 실행 되나? 게임 완료");
 						completeGame();
+						if(myidto != null) {
+							System.out.println("요게 실행이 안되나? 아이템 사용");
+							usedItem();
+							gameResult = 0;
+							
+						}
 					}
 //					System.out.println(myPoint);
 					dto = dao.updatePoint(myPoint, dto); // 게임 결과 이후 변경 된 포인트를 DB에 옮긴후 바로 DB에서 꺼내와 DTO에 저장한다.
@@ -269,6 +279,11 @@ public class GameStart extends JPanel {
 		}, 0, 1200);
 	} // end ComputerHands()
 
+	protected void usedItem() {
+		myidao.usedItem(myidto);
+		myidto=null;
+	}
+
 	private void completeGame() {
 		btnPaper.setVisible(false);
 		btnRock.setVisible(false);
@@ -281,7 +296,7 @@ public class GameStart extends JPanel {
 			myPoint += settingPoint;
 			mainGame.changePoint(myPoint);
 			completeGame();
-			this.gameResult=0;
+			
 		}
 	} // end usedShield
 	
@@ -290,7 +305,7 @@ public class GameStart extends JPanel {
 			myPoint += settingPoint;
 			mainGame.changePoint(myPoint);
 			completeGame();
-			this.gameResult=0;
+			
 		}
 	}// end usedDoubleUp
 	

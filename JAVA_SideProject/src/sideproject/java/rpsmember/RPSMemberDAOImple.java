@@ -38,19 +38,19 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 
 			pstmt = conn.prepareStatement(SQL_INSERT);
 			// "INSERT INTO "+ TABLE_NAME+" VALUES(RPS_SEQ, ?, ?, ?, ?, 1000)";
-	
+
 			pstmt.setString(1, dto.getMemberId());
-		
+
 			pstmt.setString(2, dto.getMemberPassword());
-		
+
 			pstmt.setString(3, dto.getMemberName());
-			
+
 			pstmt.setString(4, dto.getMemberEmail());
-		try {
-			result = pstmt.executeUpdate();
-		}catch(SQLIntegrityConstraintViolationException e){
-			JOptionPane.showMessageDialog(null, "이미 존재하는 아이디입니다.", "회원 등록 실패", JOptionPane.WARNING_MESSAGE);
-		}
+			try {
+				result = pstmt.executeUpdate();
+			} catch (SQLIntegrityConstraintViolationException e) {
+				JOptionPane.showMessageDialog(null, "이미 존재하는 아이디입니다.", "회원 등록 실패", JOptionPane.WARNING_MESSAGE);
+			}
 		} catch (SQLException e) {
 			System.out.println(e);
 			e.printStackTrace();
@@ -106,7 +106,7 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 
 //			System.out.println(checkPassword); // Id에 맞는 password가 나오는지 확인용
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		} finally {
 			try {
@@ -232,7 +232,16 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
-		} // throws
+		} finally{
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// throws
+		}
 		return result;
 	}
 
@@ -270,6 +279,16 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		return list;
 	}// end pointList
