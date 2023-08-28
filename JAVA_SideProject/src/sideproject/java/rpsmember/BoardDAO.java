@@ -8,4 +8,6 @@ public interface BoardDAO {
 	abstract public ArrayList<BoardDTO> leaderBoard(String id);
 	
 	abstract public ArrayList<BoardDTO> winBoard();
+	
+	abstract public int usedDiamond(RPSMemberDTO dto);
 }

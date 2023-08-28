@@ -40,8 +40,8 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 			rs= pstmt.executeQuery();
 			
 			if(rs.next()) {
-				winCount = rs.getInt(1);
-				loseCount = rs.getInt(2);
+				winCount = rs.getInt(3);
+				loseCount = rs.getInt(4);
 			}
 			rs.close();
 			pstmt.close();
@@ -62,7 +62,7 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 			}
 			pstmt.executeUpdate();
 			} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace();	
 		}finally {
 			try {
 				
@@ -163,6 +163,56 @@ public class BoardDAOImple implements BoardDAO,RPSOracleQuery {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public int usedDiamond(RPSMemberDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		int winCount = 0;
+		int loseCount = 0;
+		int boardNumber = 0;
+		int result = 0;
+		try {
+			DriverManager.registerDriver(new OracleDriver());
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			
+			pstmt = conn.prepareStatement(SQL_BOARD_FIND);
+			pstmt.setString(1, dto.getMemberId());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				winCount = rs.getInt(3);
+				loseCount = rs.getInt(4);
+			}
+			
+			rs.close();
+			pstmt.close();
+			
+			pstmt = conn.prepareStatement(SQL_USED_DIAMOND_BOARD);
+			pstmt.setInt(1, winCount+1);
+			pstmt.setInt(2, loseCount-1);
+			pstmt.setInt(3, boardNumber);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return result;
 	}
 
 	

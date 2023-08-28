@@ -68,7 +68,7 @@ public class ItemList extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				index--;
 				if(index<0) {
-					index=5;
+					index=itemIcon.length-1;
 				}
 				lblItemImage.setIcon(itemIcon[index]);
 				idto = idao.getItemInfo(1001+index);
@@ -87,7 +87,7 @@ public class ItemList extends JFrame {
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				index++;
-				if(index>5) {
+				if(index>=itemIcon.length) {
 					index=0;
 				}
 				

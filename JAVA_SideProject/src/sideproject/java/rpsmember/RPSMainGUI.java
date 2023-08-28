@@ -225,7 +225,7 @@ public class RPSMainGUI {
 					public void windowClosed(java.awt.event.WindowEvent windowEvent) {
 						btnStore.setEnabled(true);
 					}
-					
+
 				});
 			}
 		});
