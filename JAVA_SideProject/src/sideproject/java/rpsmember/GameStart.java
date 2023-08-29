@@ -40,6 +40,10 @@ public class GameStart extends JPanel {
 	private int myPoint;
 	private int settingPoint;
 	private JLabel lblSetItem;
+	private JButton btnSissorSlow;
+	private JButton btnRockSlow;
+	private JButton btnPaperSlow;
+	private JLabel lblChangeHand;
 
 	public GameStart(MainGame mainGame) {
 		dao = new RPSMemberDAOImple().getInstance();
@@ -132,11 +136,10 @@ public class GameStart extends JPanel {
 							btnCancleItem.setVisible(true);
 							lblSetItem.setText("사용된 아이템 : " + myidto.getItemName());
 							lblSetItem.setVisible(true);
-							if (myidto != null && myidto.getItemName().equals(iList.get(4).getItemName())) { // 손 봉인을 쓸
-																												// // 경우
+							if (myidto != null && myidto.getItemName().equals(iList.get(4).getItemName())) { // 손 봉인을 쓸 경우
 								comChoice = (int) (Math.random() * 3);
-								lblResult.setText("컴퓨터의 "+HANDS[comChoice] + "가 봉인 되었습니다!");
-							}
+								lblResult.setText("컴퓨터의 " + HANDS[comChoice] + "가 봉인 되었습니다!");
+							}	
 						}
 					}
 				});
@@ -150,7 +153,7 @@ public class GameStart extends JPanel {
 		btnCancleItem.setVisible(false);
 		btnCancleItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(myidto.getItemName().equals(iList.get(4).getItemName())) {
+				if (myidto.getItemName().equals(iList.get(4).getItemName())) {
 					comChoice = -1;
 				}
 				myidto = null;
@@ -167,6 +170,48 @@ public class GameStart extends JPanel {
 		lblSetItem.setBounds(10, 42, 154, 23);
 		add(lblSetItem);
 
+		btnSissorSlow = new JButton("가위");
+		btnSissorSlow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myChoice = 1;
+				lblChangeHand.setText(btnSissorSlow.getText()+"로 바꿨습니다!");
+			}
+		});
+		btnSissorSlow.setVisible(false);
+		btnSissorSlow.setFont(new Font("바탕", Font.BOLD, 20));
+		btnSissorSlow.setBounds(30, 158, 100, 100);
+		add(btnSissorSlow);
+
+		btnRockSlow = new JButton("바위");
+		btnRockSlow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myChoice = 2;
+				lblChangeHand.setText(btnRockSlow.getText()+"로 바꿨습니다!");
+			}
+		});
+		btnRockSlow.setVisible(false);
+		btnRockSlow.setFont(new Font("바탕", Font.BOLD, 20));
+		btnRockSlow.setBounds(173, 158, 100, 100);
+		add(btnRockSlow);
+
+		btnPaperSlow = new JButton("보");
+		btnPaperSlow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myChoice = 3;
+				lblChangeHand.setText(btnPaperSlow.getText()+"로 바꿨습니다!");
+			}
+		});
+		btnPaperSlow.setVisible(false);
+		btnPaperSlow.setFont(new Font("바탕", Font.BOLD, 20));
+		btnPaperSlow.setBounds(310, 158, 100, 100);
+		add(btnPaperSlow);
+		
+		lblChangeHand = new JLabel("");
+		lblChangeHand.setHorizontalAlignment(SwingConstants.CENTER);
+		lblChangeHand.setFont(new Font("돋움", Font.BOLD, 12));
+		lblChangeHand.setBounds(0, 114, 444, 34);
+		add(lblChangeHand);
+
 	}// end GameStart()
 
 	private void ComputerHands() {
@@ -180,7 +225,9 @@ public class GameStart extends JPanel {
 
 		if (myidto != null && myidto.getItemName().equals(iList.get(4).getItemName())) { // 손 봉인을 쓸 경우
 			usedJustHand();
-		} else {
+		} else if(myidto != null && myidto.getItemName().equals(iList.get(3).getItemName())) { // 슬로우를 쓸 경우
+			usedSlow();
+		}else {
 			comChoice = (int) (Math.random() * 3);
 			Timer time = new Timer();
 			time.schedule(new TimerTask() {
@@ -195,13 +242,13 @@ public class GameStart extends JPanel {
 
 						switch (myChoice) {
 						case 1:
-							SissorHand();
+							SissorHand(comChoice);
 							break;
 						case 2:
-							RockHand();
+							RockHand(comChoice);
 							break;
 						case 3:
-							PaperHand();
+							PaperHand(comChoice);
 							break;
 						}
 						btnPaper.setEnabled(true);
@@ -244,7 +291,7 @@ public class GameStart extends JPanel {
 		}
 	} // end ComputerHands()
 
-	private void SissorHand() {
+	private void SissorHand(int comChoice) {
 
 		if (comChoice == 0) { // 가위일 경우
 			gameResult = 0;
@@ -263,7 +310,7 @@ public class GameStart extends JPanel {
 		}
 	} // end SissorHand()
 
-	private void RockHand() {
+	private void RockHand(int comChoice) {
 		if (comChoice == 0) { // 가위일 경우
 			lblResult.setText("이겼습니다 !!");
 			myPoint += settingPoint;
@@ -280,7 +327,7 @@ public class GameStart extends JPanel {
 		}
 	} // end RockHand()
 
-	private void PaperHand() {
+	private void PaperHand(int comChoice) {
 		if (count == 4) {
 			if (comChoice == 0) { // 가위일 경우
 				lblResult.setText("졌습니다 ㅠㅠ");
@@ -347,16 +394,73 @@ public class GameStart extends JPanel {
 	}// end usedDiamond()
 
 	private void usedSlow() {
-		// TODO Auto-generated method stub
+		count=0;
+		comChoice = (int)(Math.random()*3);
+		Timer time = new Timer();
+		time.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				count++;
+				if (count <= 2) {
+					lblComHands.setText(Integer.toString(count));
+					
+				} else if (count == 3) {
+					lblComHands.setText("컴퓨터의 손 : " + HANDS[comChoice]);
+					btnPaper.setVisible(false);
+					btnRock.setVisible(false);
+					btnSissor.setVisible(false);
+					btnSissorSlow.setVisible(true);
+					btnRockSlow.setVisible(true);
+					btnPaperSlow.setVisible(true);
+				} else if (count == 4) {
+					switch (myChoice) {
+					case 1:
+						SissorHand(comChoice);
+						break;
+					case 2:
+						RockHand(comChoice);
+						break;
+					case 3:
+						PaperHand(comChoice);
+						break;
+					}
+					btnSissorSlow.setVisible(false);
+					btnRockSlow.setVisible(false);
+					btnPaperSlow.setVisible(false);
+					btnPaper.setVisible(true);
+					btnRock.setVisible(true);
+					btnSissor.setVisible(true);
+					btnPaper.setEnabled(true);
+					btnRock.setEnabled(true);
+					btnSissor.setEnabled(true);
 
+					if (gameResult != 0) {// 무승부가 아닐때만 컴플리트 게임 작동
+//						System.out.println("게임 완료 확인!");
+						completeGame();
+						if (myidto != null) {
+//							System.out.println("아이템 사용 확인!");
+							usedItem();
+							gameResult = 0;
+
+						}
+					}
+//		System.out.println(myPoint);
+					dto = dao.updatePoint(myPoint, dto); // 게임 결과 이후 변경 된 포인트를 DB에 옮긴후 바로 DB에서 꺼내와 DTO에 저장한다.
+					mainGame.setInfo(dto); // 메인창으로 해당 dto값을 전송시킨다.
+//		System.out.println(dto.toString());
+					myChoice = 0;
+					time.cancel();
+				}
+			}
+		}, 0, 1200);
 	}
 
 	private void usedJustHand() {
-	
 
 		comChoiceSec = (int) (Math.random() * 3);
 		while (comChoice == comChoiceSec) {
 			comChoiceSec = (int) (Math.random() * 3);
+			
 		}
 
 		Timer time = new Timer();
@@ -370,15 +474,15 @@ public class GameStart extends JPanel {
 				} else if (count == 4) {
 					lblComHands.setText("컴퓨터의 손 : " + HANDS[comChoiceSec]);
 
-					switch (comChoiceSec) {
+					switch (myChoice) {
 					case 1:
-						SissorHand();
+						SissorHand(comChoiceSec);
 						break;
 					case 2:
-						RockHand();
+						RockHand(comChoiceSec);
 						break;
 					case 3:
-						PaperHand();
+						PaperHand(comChoiceSec);
 						break;
 					}
 					btnPaper.setEnabled(true);
@@ -413,6 +517,10 @@ public class GameStart extends JPanel {
 		myPoint = dto.getMemberPoint();
 		mainGame.changePoint(myPoint);
 		completeGame();
+		if(gameResult==0) {
+			usedItem();
+			gameResult = 0;
+		}
 	}
 
 	public void setItem(MyInventoryDTO myidto) {

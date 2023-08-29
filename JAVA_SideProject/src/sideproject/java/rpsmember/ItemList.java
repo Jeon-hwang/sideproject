@@ -24,7 +24,7 @@ public class ItemList extends JFrame {
 	private final String[] itemInfo = {"<html><body><center>실드<br>포인트 감소를 한번 막아 줍니다.<br>",
 									   "<html><body><center>더블<br>승리 시 포인트를 두배로 올려 줍니다.<br>",
 									   "<html><body><center>다이아몬드<br>컴퓨터의 손의 관계없이 이깁니다.<br>",
-									   "<html><body><center>슬로우<br>컴퓨터보다 손을 1초 늦게 낼 수 있습니다.<br>",
+									   "<html><body><center>슬로우<br>2초 뒤에 컴퓨터 손이 보이고 손을 바꿀 수 있습니다.<br>",
 									   "<html><body><center>손 봉인<br>컴퓨터가 낼 수 있는 손을 한개 막습니다.<br>",
 									   "<html><body><center>판 엎기<br>게임을 시작 할 때의 <br>포인트로 되돌아 갑니다.<br>"};
 	private JPanel contentPane;

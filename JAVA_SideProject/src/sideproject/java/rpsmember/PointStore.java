@@ -4,6 +4,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,8 +32,8 @@ public class PointStore extends JFrame {
 		idao = new ItemDAOImple().getInstance();
 		mydao = new MyInventoryDAOImple().getInstance();
 		dao = new RPSMemberDAOImple().getInstance();
-		
-		
+		ArrayList<ItemDTO> list = idao.getItemList();
+
 		
 		ImageIcon shield = new ImageIcon("res/shield.jpg");
 		ImageIcon itemDouble = new ImageIcon("res/double.jpg");
@@ -65,7 +66,7 @@ public class PointStore extends JFrame {
 		btnShield.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ItemDTO shieldItem = null;
-				buyItem(shieldItem,1001);
+				buyItem(shieldItem,list.get(0).getItemId());
 			}
 
 			
@@ -74,90 +75,91 @@ public class PointStore extends JFrame {
 		btnShield.setBounds(12, 67, 90, 90);
 		contentPane.add(btnShield);
 		
-		JButton btnDoubleUp = new JButton(itemDouble);
+		JButton btnDoubleUp = new JButton(itemDouble); //더블 아이템
 		btnDoubleUp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDoubleUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ItemDTO doubleUpItem = null;
-				buyItem(doubleUpItem,1002);
+				buyItem(doubleUpItem,list.get(1).getItemId());
 			}
 		});
 		btnDoubleUp.setHorizontalAlignment(SwingConstants.CENTER);
 		btnDoubleUp.setBounds(142, 67, 90, 90);
 		contentPane.add(btnDoubleUp);
 		
-		JButton btnTimeSlow = new JButton(timeSlow);
+		JButton btnTimeSlow = new JButton(timeSlow); //슬로우 아이템
 		btnTimeSlow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnTimeSlow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ItemDTO timeSlowItem = null;
-				buyItem(timeSlowItem, 1004);
+				buyItem(timeSlowItem, list.get(3).getItemId());
 			}
 		});
 		btnTimeSlow.setHorizontalAlignment(SwingConstants.CENTER);
 		btnTimeSlow.setBounds(12, 268, 90, 90);
 		contentPane.add(btnTimeSlow);
 		
-		JButton btnJustHand = new JButton(justHand);
+		JButton btnJustHand = new JButton(justHand); // 손봉인 아이템
 		btnJustHand.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnJustHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ItemDTO justHandItem = null;
-				buyItem(justHandItem, 1005);
+				buyItem(justHandItem, list.get(4).getItemId());
 			}
 		});
 		btnJustHand.setHorizontalAlignment(SwingConstants.CENTER);
 		btnJustHand.setBounds(142, 268, 90, 90);
 		contentPane.add(btnJustHand);
 		
-		JButton btnDiamond = new JButton(diamond);
+		JButton btnDiamond = new JButton(diamond); // 다이아몬드 아이템
 		btnDiamond.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDiamond.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ItemDTO diamondItem = null;
-				buyItem(diamondItem,1003);
+				buyItem(diamondItem,list.get(2).getItemId());
 			}
 		});
 		btnDiamond.setHorizontalAlignment(SwingConstants.CENTER);
 		btnDiamond.setBounds(267, 67, 90, 90);
 		contentPane.add(btnDiamond);
 		
-		JButton btnReset = new JButton(itemReset);
+		JButton btnReset = new JButton(itemReset); // 리셋 아이템
 		btnReset.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ItemDTO resetItem = null;
-				buyItem(resetItem,1006);
+				buyItem(resetItem,list.get(5).getItemId());
 			}
 		});
 		btnReset.setHorizontalAlignment(SwingConstants.CENTER);
 		btnReset.setBounds(267, 268, 90, 90);
 		contentPane.add(btnReset);
 		
-		JLabel shieldTxt = new JLabel("<html><body><center>실드<br>20pt<br>포인트 감소를 한번 막아준다.</center></body></html>");
+		JLabel shieldTxt = new JLabel("<html><body><center>실드<br>"+list.get(0).getItemPrice()+"Pt<br>포인트 감소를 한번 막아준다.</center></body></html>");
 		shieldTxt.setBounds(12, 164, 90, 94);
 		contentPane.add(shieldTxt);
 		
-		JLabel doubleTxt = new JLabel("<html><body><center>더블<br>20pt<br>포인트를 두배로 얻는다.</center></body></html>");
+		JLabel doubleTxt = new JLabel("<html><body><center>더블<br>"+list.get(1).getItemPrice()+"Pt<br>포인트를 두배로 얻는다.</center></body></html>");
 		doubleTxt.setBounds(142, 164, 90, 94);
 		contentPane.add(doubleTxt);
 		
-		JLabel diamondTxt = new JLabel("<html><body><center>다이아몬드<br>101pt<br>모든 손을 이긴다.</center></body></html>");
+		JLabel diamondTxt = new JLabel("<html><body><center>다이아몬드<br>"+list.get(2).getItemPrice()+"Pt<br>모든 손을 이긴다.</center></body></html>");
 		diamondTxt.setBounds(267, 164, 90, 94);
 		contentPane.add(diamondTxt);
 		
-		JLabel timeTxt = new JLabel("<html><body><center>슬로우<br>50pt<br>손을 1초 늦게 낼 수 있다.</center></body></html>");
+		JLabel timeTxt = new JLabel("<html><body><center>슬로우<br>"+list.get(3).getItemPrice()+"Pt<br>2초에 컴퓨터 손이 보이고 손을 바꿀 수 있습니다.</center></body></html>");
 		timeTxt.setBounds(12, 368, 90, 94);
 		contentPane.add(timeTxt);
 		
-		JLabel JustTxt = new JLabel("<html><body><center>손 봉인<br>50pt<br>컴퓨터 손을 한개 봉인한다.</center></body></html>");
+		JLabel JustTxt = new JLabel("<html><body><center>손 봉인<br>"+list.get(4).getItemPrice()+"Pt<br>컴퓨터 손을 한개 봉인한다.</center></body></html>");
 		JustTxt.setBounds(142, 368, 90, 94);
 		contentPane.add(JustTxt);
 		
-		JLabel resetTxt = new JLabel("<html><body><center>판 엎기<br>300pt<br>게임 시작 시 포인트로 되돌아 간다.</center></body></html>");
+		JLabel resetTxt = new JLabel("<html><body><center>판 엎기<br>"+list.get(5).getItemPrice()+"Pt<br>게임 시작 시 포인트로 되돌아 간다.</center></body></html>");
 		resetTxt.setBounds(267, 368, 90, 94);
 		contentPane.add(resetTxt);
 	}
+	
 	private void buyItem(ItemDTO item,int itemId) {
 		// TODO Auto-generated method stub
 		item = idao.getItemInfo(itemId);
