@@ -18,7 +18,7 @@ public class MyLeaderBoard extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	private BoardDAO dao = new BoardDAOImple().getInstance();
+	private BoardDAO bdao = new BoardDAOImple().getInstance();
 	private RPSMemberDTO dto;
 	private DefaultTableModel tableModel;
 	private String[] colNames = {"게임번호","승리횟수", "패배횟수", "게임 시간"};
@@ -71,7 +71,7 @@ public class MyLeaderBoard extends JFrame {
 
 
 	private void leaderBoardTable() {
-		ArrayList<BoardDTO> list = dao.leaderBoard(dto.getMemberId());
+		ArrayList<BoardDTO> list = bdao.leaderBoard(dto.getMemberId());
 		tableModel.setRowCount(0);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
 		for(int i = 0; i < list.size(); i++) {

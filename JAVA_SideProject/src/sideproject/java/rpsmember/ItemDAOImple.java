@@ -29,9 +29,9 @@ public class ItemDAOImple implements ItemDAO, RPSOracleQuery {
 
 		try {
 			DriverManager.registerDriver(new OracleDriver());
-			System.out.println("드라이버 로드 성공");
+//			System.out.println("드라이버 로드 성공");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			System.out.println("DB 연결 성공");
+//			System.out.println("DB 연결 성공");
 
 			pstmt = conn.prepareStatement(SQL_ITEM_INFO);
 			pstmt.setInt(1, itemId);
@@ -45,7 +45,7 @@ public class ItemDAOImple implements ItemDAO, RPSOracleQuery {
 
 			}
 
-			System.out.println(idto.toString());
+//			System.out.println(idto.toString());
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -61,7 +61,7 @@ public class MainGame extends JFrame {
 
 					if (Integer.parseInt(pointTF.getText()) >= 0 && Integer.parseInt(pointTF.getText()) <= 100) {
 						
-						if (myPoint >= 0 && myPoint > Integer.parseInt(pointTF.getText())) {
+						if (myPoint >= 0 && myPoint >= Integer.parseInt(pointTF.getText())) {
 							game.setVisible(true); //게임창으로 전환
 							game = new GameStart(MainGame.this);
 							game.setVisible(false);
@@ -92,6 +92,7 @@ public class MainGame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				mainGUI.setInfo(dto);
 				dispose();
+				
 			}
 		});
 		btnExit.setBounds(341, 14, 74, 23);

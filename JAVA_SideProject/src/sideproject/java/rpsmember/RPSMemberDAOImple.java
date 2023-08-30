@@ -193,7 +193,7 @@ public class RPSMemberDAOImple implements RPSMemberDAO, RPSOracleQuery {
 
 			result = pstmt.executeUpdate();
 
-			System.out.println(result + "행이 수정됐습니다.");
+//			System.out.println(result + "행이 수정됐습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

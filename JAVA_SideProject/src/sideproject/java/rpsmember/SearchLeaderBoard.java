@@ -25,7 +25,7 @@ public class SearchLeaderBoard extends JFrame {
 	private JTextField findIdTF;
 	private JTable table;
 	private JLabel lblFindId;
-	private BoardDAO dao;
+	private BoardDAO bdao;
 	private DefaultTableModel tableModel;
 	private String[] header = {"게임번호","승리 횟수","패배 횟수","게임 시간"};
 	private ArrayList<BoardDTO> list;
@@ -48,7 +48,7 @@ public class SearchLeaderBoard extends JFrame {
 
 
 	private void interfaceGUI() {
-		dao = new BoardDAOImple().getInstance();
+		bdao = new BoardDAOImple().getInstance();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 443, 422);
 		contentPane = new JPanel();
@@ -107,7 +107,7 @@ public class SearchLeaderBoard extends JFrame {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
 		String findId = findIdTF.getText();
 		if(list==null) {
-		list = dao.leaderBoard(findId);
+		list = bdao.leaderBoard(findId);
 		}
 		tableModel.setRowCount(0);
 		

@@ -123,14 +123,15 @@ public class RPSMyInfo extends JFrame {
                         	JOptionPane.YES_NO_OPTION);
 				
 				if (result == JOptionPane.YES_OPTION) {
-					System.out.println("삭제되었습니다.");
+//					System.out.println("삭제되었습니다.");
 					dao.memberDelete(dto);
 					mainGUI.setUpdate(true);
 					dispose();
-				}else {
-					System.out.println("취소되었습니다.");
-					
 				}
+//				else {
+//					System.out.println("취소되었습니다.");
+					
+//				}
 			}
 		});
 		btnDelete.setFont(new Font("바탕체", Font.BOLD, 14));

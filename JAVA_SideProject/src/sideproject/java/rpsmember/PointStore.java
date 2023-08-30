@@ -34,7 +34,6 @@ public class PointStore extends JFrame {
 		dao = new RPSMemberDAOImple().getInstance();
 		ArrayList<ItemDTO> list = idao.getItemList();
 
-		
 		ImageIcon shield = new ImageIcon("res/shield.jpg");
 		ImageIcon itemDouble = new ImageIcon("res/double.jpg");
 		ImageIcon timeSlow = new ImageIcon("res/slowTime.jpg");
@@ -67,9 +66,7 @@ public class PointStore extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				ItemDTO shieldItem = null;
 				buyItem(shieldItem,list.get(0).getItemId());
-			}
-
-			
+			}	
 		});
 		btnShield.setHorizontalAlignment(SwingConstants.CENTER);
 		btnShield.setBounds(12, 67, 90, 90);

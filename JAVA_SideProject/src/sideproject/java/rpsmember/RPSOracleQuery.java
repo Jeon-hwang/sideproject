@@ -1,7 +1,7 @@
 package sideproject.java.rpsmember;
 
 public interface RPSOracleQuery {
-	public static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
+	public static final String URL = "jdbc:oracle:thin:@172.16.3.12:1521:xe";
 	public static final String USER = "scott";
 	public static final String PASSWORD = "tiger";
 

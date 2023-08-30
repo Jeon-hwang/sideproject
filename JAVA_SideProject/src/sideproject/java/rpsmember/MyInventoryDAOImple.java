@@ -146,10 +146,10 @@ public class MyInventoryDAOImple implements MyInventoryDAO,RPSOracleQuery {
 //				System.out.println(rs.getInt(1));
 				int itemCount = rs.getInt(1);
 //				System.out.println("여기가 부적합한가");
-				System.out.println(itemCount);
+//				System.out.println(itemCount);
 				result = new MyInventoryDTO(0, dto.getMemberId(), idto.getItemName(), itemCount, null);
 				
-				System.out.println(result.toString()); 
+//				System.out.println(result.toString()); 
 			}else {
 //				System.out.println("서버에 아예 없을경우");
 				result = new MyInventoryDTO(0, dto.getMemberId(), idto.getItemName(), 0, null);
@@ -188,7 +188,7 @@ public class MyInventoryDAOImple implements MyInventoryDAO,RPSOracleQuery {
 			pstmt.setInt(3, myidto.getItemCount()-1);
 		
 			pstmt.executeUpdate();
-			System.out.println("DB에 들어가나요?");
+//			System.out.println("DB에 들어가나요?");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

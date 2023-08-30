@@ -1,15 +1,14 @@
 package sideproject.java.rpsmember;
 
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class RPSMainGUI {
 	private RPSLoginGUI gameLogin;
@@ -23,7 +22,8 @@ public class RPSMainGUI {
 	private JButton btnMyInfo;
 	private JButton btnStore;
 	private RPSMyInfo myInfo;
-
+	private PointStore store;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -62,7 +62,8 @@ public class RPSMainGUI {
 				btnLogin.setEnabled(isLogin);
 				gameLogin = new RPSLoginGUI(RPSMainGUI.this);
 				gameLogin.setVisible(true); // 로그인 창을 띄운다
-
+				
+				
 				gameLogin.addWindowListener(new java.awt.event.WindowAdapter() {
 					@Override
 					public void windowClosed(java.awt.event.WindowEvent windowEvent) {
@@ -116,6 +117,12 @@ public class RPSMainGUI {
 				lblHello.setText("로그아웃 되었습니다.");
 				lblMyPoint.setText(null);
 				dto = null;
+				if(store != null && store.isVisible()) {
+					store.dispose();	
+				}
+				if(myInfo != null && myInfo.isVisible()) {
+					myInfo.dispose();	
+				}
 				if (myInfo != null) {
 					myInfo.setVisible(isLogin);
 					btnMyInfo.setEnabled(!isLogin);
@@ -159,6 +166,13 @@ public class RPSMainGUI {
 			public void actionPerformed(ActionEvent e) {
 				if (dto != null) {
 					frame.setVisible(false);
+					if(store != null && store.isVisible()) {
+						store.dispose();	
+					}
+					if(myInfo != null && myInfo.isVisible()) {
+						myInfo.dispose();	
+					}
+					
 					MainGame mainGame = new MainGame(RPSMainGUI.this);
 					mainGame.setVisible(true);
 					mainGame.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -218,8 +232,8 @@ public class RPSMainGUI {
 		btnStore.setVisible(isLogin);
 		btnStore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PointStore store = new PointStore(RPSMainGUI.this);
-				store.setVisible(true);
+				store = new PointStore(RPSMainGUI.this);
+				store.setVisible(true);	
 				btnStore.setEnabled(false);
 				store.addWindowListener(new java.awt.event.WindowAdapter() {
 					public void windowClosed(java.awt.event.WindowEvent windowEvent) {
@@ -233,10 +247,6 @@ public class RPSMainGUI {
 		frame.getContentPane().add(btnStore);
 	} // end initialize()
 
-	public void setCancle(boolean cancle) {
-		isLogin = cancle;
-		btnLogin.setEnabled(isLogin);
-	} // end setCancle
 
 	public void setLogin(boolean login) {
 		isLogin = login;
@@ -266,10 +276,6 @@ public class RPSMainGUI {
 
 	public void setPoint(int point) {
 		this.dto.setMemberPoint(point);
-	}
-
-	public int getPoint() {
-		return dto.getMemberPoint();
 	}
 
 	public void setInfo(RPSMemberDTO dto) {

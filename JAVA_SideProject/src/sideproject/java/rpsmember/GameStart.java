@@ -3,6 +3,7 @@ package sideproject.java.rpsmember;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,6 +38,7 @@ public class GameStart extends JPanel {
 	private int gameResult = 0; // 0 무승부 1 승리 2 패배
 
 	private MainGame mainGame;
+	private ItemListGUI itemList;
 	private int myPoint;
 	private int settingPoint;
 	private JLabel lblSetItem;
@@ -50,11 +52,17 @@ public class GameStart extends JPanel {
 		bdao = new BoardDAOImple().getInstance();
 		myidao = new MyInventoryDAOImple().getInstance();
 		this.mainGame = mainGame;
-
-//		System.out.println("리스트 0"+list.get(0).toString()); 
-//		System.out.println("리스트 1"+list.get(1).toString()); 
-//		System.out.println("리스트 2"+list.get(2).toString()); 
-
+		
+		mainGame.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				if(itemList!=null && itemList.isVisible()) {
+					itemList.dispose();
+				}
+				
+			}
+		});
+		
 		settingPoint = mainGame.settingPoint();
 		dto = mainGame.getInfo();
 		backupDto = mainGame.getBackUp();
@@ -63,6 +71,8 @@ public class GameStart extends JPanel {
 //		System.out.println(dto.toString());
 		setLayout(null);
 
+		
+		
 		lblComHands = new JLabel("손을 선택하세요.");
 		lblComHands.setHorizontalAlignment(SwingConstants.CENTER);
 		lblComHands.setFont(new Font("돋움", Font.BOLD, 18));
@@ -115,6 +125,7 @@ public class GameStart extends JPanel {
 				btnRestart.setVisible(false);
 				mainGame.isRestart();
 				setVisible(false);
+				
 			}
 		});
 		btnRestart.setFont(new Font("바탕", Font.BOLD, 26));
@@ -124,7 +135,7 @@ public class GameStart extends JPanel {
 		btnUseItem = new JButton("아이템 사용");
 		btnUseItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ItemList itemList = new ItemList(GameStart.this);
+				itemList = new ItemListGUI(GameStart.this);
 				itemList.setVisible(true);
 				btnUseItem.setEnabled(false);
 
@@ -155,6 +166,7 @@ public class GameStart extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (myidto.getItemName().equals(iList.get(4).getItemName())) {
 					comChoice = -1;
+					lblResult.setText("");
 				}
 				myidto = null;
 				btnCancleItem.setVisible(false);
@@ -530,5 +542,9 @@ public class GameStart extends JPanel {
 
 	public RPSMemberDTO getMemberDTO() {
 		return dto;
+	}
+	
+	public ItemListGUI getItemListGUI() {
+		return itemList;
 	}
 }// end GameStart;
